@@ -11,6 +11,6 @@ import { PrismaClient } from '@prisma/client';
 //   var prisma: PrismaClient | undefined
 // }
 
-const prisma = global.prisma || new PrismaClient({ adapter });
+const prisma = new PrismaClient();
 
 export default prisma;
