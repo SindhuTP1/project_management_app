@@ -1,7 +1,9 @@
 import prisma from "../configs/prisma.js";
 
+
+
 // get all workspace for user
-export const getUserWorkspaces= async(requestAnimationFrame,res)=>{
+export const getUserWorkspaces= async(req,res)=>{
     try{
         const{userId}=await req.auth();
         const workspaces=await prisma.workspace.findMany({
@@ -42,7 +44,7 @@ export const addMember=async(req, res)=>{
             return res.status(400).json({message: "Missing required parameters"})
         }
 
-        if(!["ADMIN","NUMBER"].include(role)){
+        if(!["ADMIN","MEMBER"].includes(role)){
             return res.status(400).json({message: "Invalid role"})
         }
         //fetch workspace
@@ -54,14 +56,14 @@ export const addMember=async(req, res)=>{
             }
 
             //check creator has admin role
-            if (!workspace.members.find((member)=>member.userId === userid && member.role === "ADMIN")){
+            if (!workspace.members.find((member)=>member.userId === userId && member.role === "ADMIN")){
                 return res.status(401).json({message: "You do not have admin privileges"})
             }
 
             //check id user is already a member
-            const existingMember =workspace.members.find((member)=> member.userId===userTd);
+            const existingMember =workspace.members.find((member)=> member.userId===userId);
 
-            if(existtingMember){
+            if(existingMember){
                 return res.status(400).json({message: "user is already a member"})
             }
 

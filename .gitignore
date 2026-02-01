@@ -1,4 +1,4 @@
 node_modules/
-.env
-prisma/client.js
 
+prisma/client.js
+.env
