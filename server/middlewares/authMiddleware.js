@@ -1,14 +1,15 @@
-export const protect =async(req, res, next)=>{
-    try{
-        const{userId}= req.auth()
+import { getAuth } from "@clerk/express";
 
-        if(!userId){
-            return res.status(401).json({message: "Unauthorized"});
-        }
-        return next();
-    }catch(error){
+export const protect = (req, res, next) => {
+  const auth = getAuth(req);
+  console.log("AUTH DEBUG:", auth);   // 👈 add this
 
-        console.log(error);
-        res.status(401).json({message:error.code || error.message});
-    }
+  const { userId } = auth;
+
+  if (!userId) {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
+
+  req.userId = userId;
+  next();
 };
