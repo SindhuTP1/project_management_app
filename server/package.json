@@ -22,7 +22,7 @@
     "express": "^5.2.1",
     "inngest": "^3.48.0",
     "mongoose": "^9.1.5",
-    "nodemailer": "^7.0.12",
+    "nodemailer": "^7.0.13",
     "prisma": "^5.22.0",
     "ws": "^8.18.3"
   },

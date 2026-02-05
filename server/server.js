@@ -1,22 +1,18 @@
+import 'dotenv/config';   // ✅ FIRST LINE
+
 import express from 'express';
-//import prisma from './prisma/client.js';
+import cors from 'cors';
+import { clerkMiddleware } from '@clerk/express';
+
 import workspaceRouter from './routes/workspaceRoutes.js';
-import { protect } from './middlewares/authMiddleware.js';
 import projectRouter from './routes/projectRoutes.js';
 import taskRouter from './routes/taskRoutes.js';
 import commentRouter from './routes/commentRoutes.js';
-
+import { protect } from './middlewares/authMiddleware.js';
 import prisma from './configs/prisma.js';
 
-
-
-
-import 'dotenv/config';
-import cors from 'cors';
-import { clerkMiddleware } from '@clerk/express';
 import { serve } from "inngest/express";
-import { inngest, functions } from "./inngest/index.js"
-
+import { inngest, functions } from "./inngest/index.js";
 
 const app=express();
 

@@ -1,6 +1,7 @@
 import { format } from "date-fns";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
+import { useAuth } from "@clerk/clerk-react";
 import { useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { deleteTask, updateTask } from "../features/workspaceSlice";
@@ -21,6 +22,7 @@ const priorityTexts = {
 };
 
 const ProjectTasks = ({ tasks }) => {
+    const {getToken}=useAuth()
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [selectedTasks, setSelectedTasks] = useState([]);
@@ -57,9 +59,10 @@ const ProjectTasks = ({ tasks }) => {
     const handleStatusChange = async (taskId, newStatus) => {
         try {
             toast.loading("Updating status...");
+            const token=await getToken()
 
-            //  Simulate API call
-            await new Promise((resolve) => setTimeout(resolve, 2000));
+           await api.put(`/api/tasks/${taskId}`, {status: newStatus},
+            {headers: {Authorization: 'Bearer ${token}'}})
 
             let updatedTask = structuredClone(tasks.find((t) => t.id === taskId));
             updatedTask.status = newStatus;
@@ -77,11 +80,12 @@ const ProjectTasks = ({ tasks }) => {
         try {
             const confirm = window.confirm("Are you sure you want to delete the selected tasks?");
             if (!confirm) return;
+            const token=await getToken()
 
             toast.loading("Deleting tasks...");
+            await api.post(`/api/tasks/delete`, {tasksIds: selectedTasks},
+            {headers:{Authorization: 'Bearer ${token}'}})
 
-            //  Simulate API call
-            await new Promise((resolve) => setTimeout(resolve, 2000));
 
             dispatch(deleteTask(selectedTasks));
 

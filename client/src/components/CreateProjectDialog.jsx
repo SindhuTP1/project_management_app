@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { XIcon } from "lucide-react";
 import { useSelector } from "react-redux";
+import {addProject} from "../features/workspaceSlice";
 
 const CreateProjectDialog = ({ isDialogOpen, setIsDialogOpen }) => {
 
